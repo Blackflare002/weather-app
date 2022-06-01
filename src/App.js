@@ -18,26 +18,45 @@ const App = () => {
 		)
 			.then((res) => res.json())
 			.then((data) => {
-				console.log(data);
-				console.log("WEATHER: ", data.weather[0]);
-				console.log("ICON: ", data.weather[0].icon);
-				console.log("TEMP: ", data.main.temp);
-				console.log("FEELS: ", data.main.feels_like);
-				setWeather(data.weather[0]);
+				// console.log(data);
+				console.log("WEATHER: ", data.weather[0].description);
+				// console.log("ICON: ", data.weather[0].icon);
+				// console.log("TEMP: ", data.main.temp);
+				// console.log("FEELS: ", data.main.feels_like);
+				setWeather(data.weather[0].description);
 				setTemp(data.main.temp);
 				setFeelsLike(data.main.feels_like);
 				setIcon(data.weather[0].icon);
+			});
+	}, []);
+
+	const [forecastWeather, setForecastWeather] = useState(null);
+	useEffect(() => {
+		fetch(
+			`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}&units=metric`
+		)
+			.then((res) => res.json())
+			.then((data) => {
+				// console.log(data);
+				// console.log(data.list);
+				// console.log(data.list[0].main);
+				let forecast = data.list.map((el) => {
+					return el.weather[0].main;
+				});
+				console.log(forecast.slice(0, 7));
+				setForecastWeather(forecast.slice(0, 7));
 			});
 	}, []);
 	return (
 		<>
 			<Container>
 				<ImageBox>
-					<p>Today</p>
+					<TodayText>Today</TodayText>
 					<img
 						src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
 						alt=""
 					/>
+					<p>{weather}</p>
 				</ImageBox>
 				{/* <p>{weather && weather.main}</p> */}
 				<TempBox>
@@ -45,12 +64,26 @@ const App = () => {
 					<FeelsStyle>{feelsLike && feelsLike}</FeelsStyle>
 				</TempBox>
 			</Container>
+			<Container>
+				{forecastWeather &&
+					forecastWeather.map((el) => {
+						return (
+							<div>
+								<p>{el}</p>
+							</div>
+						);
+					})}
+			</Container>
 		</>
 	);
 };
 
+const TodayText = styled.p`
+	font-weight: bold;
+`;
+
 const FeelsStyle = styled.p`
-	color: lightgray;
+	color: gray;
 `;
 
 const ImageBox = styled.div`
@@ -66,7 +99,7 @@ const TempBox = styled.div`
 `;
 
 const Container = styled.div`
-	/* border: solid 2px black; */
+	border: solid 2px black;
 	width: 250px;
 	margin-left: 50px;
 `;
