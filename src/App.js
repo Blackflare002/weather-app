@@ -31,6 +31,7 @@ const App = () => {
 	}, []);
 
 	const [forecastWeather, setForecastWeather] = useState(null);
+	const [forecastTemp, setForecastTemp] = useState(null);
 	useEffect(() => {
 		fetch(
 			`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}&units=metric`
@@ -44,7 +45,14 @@ const App = () => {
 					return el.weather[0].main;
 				});
 				console.log(forecast.slice(0, 7));
+				//
+				let forecastTemp = data.list.map((el) => {
+					return el.main.temp;
+				});
+				console.log(forecastTemp.slice(0, 7));
+				//
 				setForecastWeather(forecast.slice(0, 7));
+				setForecastTemp(forecastTemp.slice(0, 7));
 			});
 	}, []);
 	return (
@@ -67,6 +75,15 @@ const App = () => {
 			<Container>
 				{forecastWeather &&
 					forecastWeather.map((el) => {
+						return (
+							<div>
+								<p>{el}</p>
+							</div>
+						);
+					})}
+				{/* Maybe I should return an object in the forecast var? */}
+				{forecastTemp &&
+					forecastTemp.map((el) => {
 						return (
 							<div>
 								<p>{el}</p>
