@@ -30,8 +30,9 @@ const App = () => {
 			});
 	}, []);
 
-	const [forecastWeather, setForecastWeather] = useState(null);
-	const [forecastTemp, setForecastTemp] = useState(null);
+	// const [forecastWeather, setForecastWeather] = useState(null);
+	// const [forecastTemp, setForecastTemp] = useState(null);
+	const [forecastData, setForecastData] = useState(null);
 	useEffect(() => {
 		fetch(
 			`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}&units=metric`
@@ -41,18 +42,22 @@ const App = () => {
 				// console.log(data);
 				// console.log(data.list);
 				// console.log(data.list[0].main);
-				let forecast = data.list.map((el) => {
-					return el.weather[0].main;
-				});
-				console.log(forecast.slice(0, 7));
 				//
-				let forecastTemp = data.list.map((el) => {
-					return el.main.temp;
-				});
-				console.log(forecastTemp.slice(0, 7));
+				// let forecast = data.list.map((el) => {
+				// 	return el.weather[0].main;
+				// });
+				// console.log(forecast.slice(0, 7));
+				// //
+				// let forecastTemp = data.list.map((el) => {
+				// 	return el.main.temp;
+				// });
+				// console.log(forecastTemp.slice(0, 7));
+				// //
+				// setForecastWeather(forecast.slice(0, 7));
+				// setForecastTemp(forecastTemp.slice(0, 7));
 				//
-				setForecastWeather(forecast.slice(0, 7));
-				setForecastTemp(forecastTemp.slice(0, 7));
+				let forecast = data.list;
+				setForecastData(forecast);
 			});
 	}, []);
 	return (
@@ -73,23 +78,28 @@ const App = () => {
 				</TempBox>
 			</Container>
 			<Container>
-				{forecastWeather &&
-					forecastWeather.map((el) => {
+				{forecastData &&
+					forecastData.slice(0, 7).map((el) => {
 						return (
 							<div>
-								<p>{el}</p>
+								<img
+									src={`http://openweathermap.org/img/wn/${el.weather[0].icon}@2x.png`}
+									alt=""
+								/>
+								<p>{el.weather[0].main}</p>
+								<p>{el.main.temp}</p>
+								<p>{el.main.feels_like}</p>
 							</div>
 						);
 					})}
-				{/* Maybe I should return an object in the forecast var? */}
-				{forecastTemp &&
+				{/* {forecastTemp &&
 					forecastTemp.map((el) => {
 						return (
 							<div>
 								<p>{el}</p>
 							</div>
 						);
-					})}
+					})} */}
 			</Container>
 		</>
 	);
