@@ -3,13 +3,14 @@ import styled from "styled-components";
 
 const lat = 45.5031824;
 const lon = -73.5698065;
-const key = "e55d17952f7e09c6f4873cd19cec6be6";
+const key = process.env.REACT_APP_API_KEY;
 
 const App = () => {
 	const [weather, setWeather] = useState(null);
 	const [temp, setTemp] = useState(null);
 	const [feelsLike, setFeelsLike] = useState(null);
 	const [icon, setIcon] = useState(null);
+	// console.log(process.env.REACT_APP_API_KEY);
 	useEffect(() => {
 		fetch(
 			`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}&units=metric`
@@ -62,7 +63,9 @@ const App = () => {
 					{forecastData &&
 						forecastData.slice(0, 7).map((el) => {
 							return (
-								<ForecastItem>
+								<ForecastItem
+									key={Math.round(Math.random() * 123456789)}
+								>
 									<ImageBox>
 										<p>{el.dt_txt.slice(0, 10)}</p>
 										<img
