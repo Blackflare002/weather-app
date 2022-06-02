@@ -30,8 +30,6 @@ const App = () => {
 			});
 	}, []);
 
-	// const [forecastWeather, setForecastWeather] = useState(null);
-	// const [forecastTemp, setForecastTemp] = useState(null);
 	const [forecastData, setForecastData] = useState(null);
 	useEffect(() => {
 		fetch(
@@ -39,71 +37,78 @@ const App = () => {
 		)
 			.then((res) => res.json())
 			.then((data) => {
-				// console.log(data);
-				// console.log(data.list);
-				// console.log(data.list[0].main);
-				//
-				// let forecast = data.list.map((el) => {
-				// 	return el.weather[0].main;
-				// });
-				// console.log(forecast.slice(0, 7));
-				// //
-				// let forecastTemp = data.list.map((el) => {
-				// 	return el.main.temp;
-				// });
-				// console.log(forecastTemp.slice(0, 7));
-				// //
-				// setForecastWeather(forecast.slice(0, 7));
-				// setForecastTemp(forecastTemp.slice(0, 7));
-				//
 				let forecast = data.list;
 				setForecastData(forecast);
 			});
 	}, []);
 	return (
 		<>
-			<Container>
-				<ImageBox>
-					<TodayText>Today</TodayText>
-					<img
-						src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
-						alt=""
-					/>
-					<p>{weather}</p>
-				</ImageBox>
-				{/* <p>{weather && weather.main}</p> */}
-				<TempBox>
-					<p>{temp && temp}</p>
-					<FeelsStyle>{feelsLike && feelsLike}</FeelsStyle>
-				</TempBox>
-			</Container>
-			<Container>
-				{forecastData &&
-					forecastData.slice(0, 7).map((el) => {
-						return (
-							<div>
-								<img
-									src={`http://openweathermap.org/img/wn/${el.weather[0].icon}@2x.png`}
-									alt=""
-								/>
-								<p>{el.weather[0].main}</p>
-								<p>{el.main.temp}</p>
-								<p>{el.main.feels_like}</p>
-							</div>
-						);
-					})}
-				{/* {forecastTemp &&
-					forecastTemp.map((el) => {
-						return (
-							<div>
-								<p>{el}</p>
-							</div>
-						);
-					})} */}
-			</Container>
+			<CurrentWeatherBox>
+				<Container>
+					<ImageBox>
+						<TodayText>Today</TodayText>
+						<img
+							src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
+							alt=""
+						/>
+						<p>{weather}</p>
+					</ImageBox>
+					{/* <p>{weather && weather.main}</p> */}
+					<TempBox>
+						<p>{temp && temp}</p>
+						<FeelsStyle>{feelsLike && feelsLike}</FeelsStyle>
+					</TempBox>
+				</Container>
+			</CurrentWeatherBox>
+			<ForecastContainer>
+				<InnerForecastBox>
+					{forecastData &&
+						forecastData.slice(0, 7).map((el) => {
+							return (
+								<ForecastItem>
+									<p>{el.dt_txt.slice(0, 10)}</p>
+									<img
+										src={`http://openweathermap.org/img/wn/${el.weather[0].icon}@2x.png`}
+										alt=""
+									/>
+									<p>{el.weather[0].main}</p>
+									<p>{el.main.temp}</p>
+									<p>{el.main.feels_like}</p>
+								</ForecastItem>
+							);
+						})}
+				</InnerForecastBox>
+			</ForecastContainer>
 		</>
 	);
 };
+
+const CurrentWeatherBox = styled.div`
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+`;
+
+const ForecastItem = styled.div`
+	display: flex;
+	flex-direction: column;
+	/* flex-grow: 1; */
+`;
+
+const InnerForecastBox = styled.div`
+	display: flex;
+	/* flex-grow: 1; */
+`;
+
+const ForecastContainer = styled.div`
+	border: solid 2px black;
+	margin-left: 50px;
+	margin-right: 50px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	/* flex-grow: 1; */
+`;
 
 const TodayText = styled.p`
 	font-weight: bold;
