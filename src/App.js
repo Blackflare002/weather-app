@@ -47,7 +47,7 @@ const App = () => {
 					<ImageBox>
 						<TodayText>Today</TodayText>
 						<img
-							src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
+							src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
 							alt="Icon depicting the weather"
 						/>
 						<p>{weather}</p>
@@ -69,7 +69,7 @@ const App = () => {
 									<ImageBox>
 										<p>{el.dt_txt.slice(0, 10)}</p>
 										<img
-											src={`http://openweathermap.org/img/wn/${el.weather[0].icon}@2x.png`}
+											src={`https://openweathermap.org/img/wn/${el.weather[0].icon}@2x.png`}
 											alt="Weather icons"
 										/>
 										<p>{el.weather[0].main}</p>
