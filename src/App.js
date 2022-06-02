@@ -1,5 +1,3 @@
-// import logo from './logo.svg';
-import "./App.css";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -113,19 +111,14 @@ const ForecastItem = styled.div`
 
 const InnerForecastBox = styled.div`
 	display: flex;
-	/* gap: 75px; */
-	/* flex-grow: 1; */
 `;
 
 const ForecastContainer = styled.div`
 	/* border: solid 2px black; */
 	margin-top: 50px;
-	/* margin-left: 10px; */
-	/* margin-right: 10px; */
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-	/* flex-grow: 1; */
 `;
 
 const TodayText = styled.p`
@@ -146,8 +139,6 @@ const ImageBox = styled.div`
 const TempBox = styled.div`
 	display: flex;
 	justify-content: space-around;
-	/* border: solid 2px black; */
-	/* min-width: 200px; */
 `;
 
 const Container = styled.div`
