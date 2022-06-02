@@ -42,18 +42,17 @@ const App = () => {
 			});
 	}, []);
 	return (
-		<>
+		<TopBox>
 			<CurrentWeatherBox>
 				<Container>
 					<ImageBox>
 						<TodayText>Today</TodayText>
 						<img
 							src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
-							alt=""
+							alt="Icon depicting the weather"
 						/>
 						<p>{weather}</p>
 					</ImageBox>
-					{/* <p>{weather && weather.main}</p> */}
 					<TempBox>
 						<p>{temp && temp}</p>
 						<FeelsStyle>{feelsLike && feelsLike}</FeelsStyle>
@@ -66,44 +65,63 @@ const App = () => {
 						forecastData.slice(0, 7).map((el) => {
 							return (
 								<ForecastItem>
-									<p>{el.dt_txt.slice(0, 10)}</p>
-									<img
-										src={`http://openweathermap.org/img/wn/${el.weather[0].icon}@2x.png`}
-										alt=""
-									/>
-									<p>{el.weather[0].main}</p>
-									<p>{el.main.temp}</p>
-									<p>{el.main.feels_like}</p>
+									<ImageBox>
+										<p>{el.dt_txt.slice(0, 10)}</p>
+										<img
+											src={`http://openweathermap.org/img/wn/${el.weather[0].icon}@2x.png`}
+											alt="Weather icons"
+										/>
+										<p>{el.weather[0].main}</p>
+									</ImageBox>
+									<TempBox2>
+										<p>{el.main.temp}</p>
+										<FeelsStyle>{el.main.feels_like}</FeelsStyle>
+									</TempBox2>
 								</ForecastItem>
 							);
 						})}
 				</InnerForecastBox>
 			</ForecastContainer>
-		</>
+		</TopBox>
 	);
 };
 
-const CurrentWeatherBox = styled.div`
+const TempBox2 = styled.div`
+	display: flex;
+	gap: 35px;
+`;
+
+const TopBox = styled.div`
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
 `;
 
+const CurrentWeatherBox = styled.div`
+	display: flex;
+	justify-content: center;
+`;
+
 const ForecastItem = styled.div`
 	display: flex;
 	flex-direction: column;
-	/* flex-grow: 1; */
+	justify-content: center;
+	border: solid 1px grey;
+	padding: 0 30px 0 30px;
+	margin: 0 5px 0 5px;
 `;
 
 const InnerForecastBox = styled.div`
 	display: flex;
+	/* gap: 75px; */
 	/* flex-grow: 1; */
 `;
 
 const ForecastContainer = styled.div`
-	border: solid 2px black;
-	margin-left: 50px;
-	margin-right: 50px;
+	/* border: solid 2px black; */
+	margin-top: 50px;
+	/* margin-left: 10px; */
+	/* margin-right: 10px; */
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -128,12 +146,15 @@ const ImageBox = styled.div`
 const TempBox = styled.div`
 	display: flex;
 	justify-content: space-around;
+	/* border: solid 2px black; */
+	/* min-width: 200px; */
 `;
 
 const Container = styled.div`
-	border: solid 2px black;
+	border: solid 1px grey;
 	width: 250px;
 	margin-left: 50px;
+	margin-top: 50px;
 `;
 
 export default App;
